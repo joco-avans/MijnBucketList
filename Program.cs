@@ -10,6 +10,20 @@ int GetValidInt()
     return keuze;
 }
 
+void LijstNaarConsole(List<string> regels)
+{    
+    if (regels.Count == 0)
+    {
+        Console.WriteLine("Geen items in lijst!");
+    }
+    int teller = 1;
+    foreach (string regel in regels)
+    {
+        Console.WriteLine($"{teller}. {regel}");
+        teller++;
+    }       
+}
+
 int KeuzeMenu()
 {
     Console.Clear();
@@ -18,6 +32,7 @@ int KeuzeMenu()
     Console.WriteLine("1. Toevoegen");
     Console.WriteLine("2. Verwijderen");
     Console.WriteLine("3. Toon lijst");
+    Console.WriteLine("4. Zoek item(s)");
     Console.WriteLine("9. Stop");
     Console.Write("Voer keuze in : ");
     return GetValidInt();
@@ -49,15 +64,20 @@ void ToonLijst(List<string> regels)
     Console.ReadLine();
 }
 
-void LijstNaarConsole(List<string> regels)
-{
-    
-    int teller = 1;
-    foreach (string regel in regels)
-    {
-        Console.WriteLine($"{teller}. {regel}");
-        teller++;
-    }       
+void FilterLijst(List<string> zoekLijst)
+{    
+    while (true)
+    {   
+        Console.Clear();
+        Console.WriteLine("ZOEK FUNCTIE");
+        Console.Write("Toets een term in om te zoeken (of stop):");
+        string zoekTerm = Console.ReadLine()!;
+        if (zoekTerm.ToUpper() == "STOP")
+        {
+            break;
+        }            
+        ToonLijst(zoekLijst.FindAll(item => item.Contains(zoekTerm)));
+    }
 }
 
 List<String> bucketList = [];
@@ -75,6 +95,9 @@ do
             break;
         case 3: // toon lijst
             ToonLijst(bucketList);
+            break;
+        case 4: 
+            FilterLijst(bucketList);
             break;
     }
 } while (menuKeuze != 9);
